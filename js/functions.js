@@ -17,5 +17,5 @@ const getNumber = (material) => {
       result += el;
     }
   }
-  return result !== 0 ? result : NaN;
+  return +result !== 0 ? +result : NaN;
 };
