@@ -29,6 +29,28 @@ const DESCRIPTION = [
   'За подписку буду выкладывать посты чаще',
 ];
 
+const MIN_LIKES = 15;
+
+const MAX_LIKES = 200;
+
+const START_ID = 1;
+
+const END_ID = 25;
+
+const MIN_COUNT_OFFERS = 1;
+
+const MAX_COUNT_OFFERS = 2;
+
+const QTY_POSTS = 25;
+
+const MIN_QTY_COMMENTS = 0;
+
+const MAX_QTY_COMMENTS = 30;
+
+const MIN_VALUE_AVATAR = 0;
+
+const MAX_VALUE_AVATAR = 6;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -38,51 +60,49 @@ const getRandomInteger = (a, b) => {
 
 const getRandomArrayEl = (element) => element[getRandomInteger(0, element.length - 1)];
 
-function createIdFromRangeGenerator(min, max) {
-  const previousValues = [];
+const createIdGenerator = () => {
+  let lastGeneratedId = 0;
+
   return function () {
-    let currentValue = getRandomInteger(min, max);
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
+
+    lastGeneratedId += 1;
+    return lastGeneratedId;
   };
-}
+};
+
+const getIdAutorPost = createIdGenerator();
+const getIdComments = createIdGenerator();
+const getUrl = () => `photos/${getRandomInteger(START_ID, END_ID)}.jpg`;
+
+
+const getAvatar = () => `img/avatar-${getRandomInteger(MIN_VALUE_AVATAR, MAX_VALUE_AVATAR)}.svg`;
 
 const createMessage = () => {
-  const messageCount = getRandomInteger(1, 2);
+  const messageCount = getRandomInteger(MIN_COUNT_OFFERS, MAX_COUNT_OFFERS);
   const message = [];
 
   for (let i = 1; i <= messageCount; i++) {
     message.push(getRandomArrayEl(COMMENTS));
   }
 
-  return message;
+  return message.join('. ');
 };
 
-const getIdAutorPost = createIdFromRangeGenerator(1, 25);
-const getIdAutorComment = createIdFromRangeGenerator(1, 25);
-const getUrl = createIdFromRangeGenerator(0, 25);
-
 const createComment = () => ({
-  id: getIdAutorComment(),
-  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+  id: getIdComments(),
+  avatar: getAvatar(),
   message: createMessage(),
   name: getRandomArrayEl(NAME),
 });
 
-const similarComments = Array.from({ length: getRandomInteger(0, 30) }, createComment);
-
 const createPhotoPost = () => ({
   id: getIdAutorPost(),
-  url: `photos/${getUrl()}.jpg`,
+  getUrlurl: getUrl(),
   description: getRandomArrayEl(DESCRIPTION),
-  likes: getRandomInteger(15, 200),
-  comments: similarComments,
+  likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
+  comments: Array.from({ length: getRandomInteger(MIN_QTY_COMMENTS, MAX_QTY_COMMENTS) }, createComment),
 });
 
-const similarPhotoPost = Array.from({ length: 25 }, createPhotoPost);
+const similarPhotoPost = Array.from({ length: QTY_POSTS }, createPhotoPost);
 
 similarPhotoPost();
-
