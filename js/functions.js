@@ -12,7 +12,6 @@ const checkPalindrome = (text) => {
 const getNumber = (material) => {
   let result = '';
   for (const el of material.toString()) {
-    // !Number.isNaN(parseInt(el, 10)) ? result += el : null;
     if (!Number.isNaN(parseInt(el, 10))) {
       result += el;
     }
