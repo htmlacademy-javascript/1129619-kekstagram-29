@@ -37,10 +37,9 @@ const getMeetResult = (starDay, endDay, startMeet, meetTime) => {
 
   const minutesMeeting = timeEndMeet.split(':')[0] * 60 + timeEndMeet.split(':')[1] * 1;
   const minutesEndDay = endDay.split(':')[0] * 60 + endDay.split(':')[1] * 1;
+  const minutesStartDay = starDay.split(':')[0] * 60 + starDay.split(':')[1] * 1;
 
-  return minutesEndDay - minutesMeeting > 0;
-
-
+  return minutesEndDay - minutesMeeting >= 0 && minutesStartDay < minutesMeeting;
 };
 
-getMeetResult('08:00', '13:20', '12:00', 90);
+getMeetResult();
