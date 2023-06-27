@@ -1,3 +1,3 @@
-import { similarPhotoPost } from './data.js';
+import { getRandomPicture } from './picture.js';
 
-similarPhotoPost();
+getRandomPicture();
