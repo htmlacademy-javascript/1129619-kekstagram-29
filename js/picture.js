@@ -5,12 +5,12 @@ const getRandomPicture = () => {
   const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const photoListFragment = document.createDocumentFragment();
 
-  similarPhotoPost.forEach((photo) => {
+  similarPhotoPost.forEach(({ getUrl, description, likes, comments }) => {
     const photoElement = simularPictureTemplate.cloneNode(true);
-    photoElement.querySelector('.picture__img').src = photo.getUrlurl;
-    photoElement.querySelector('.picture__img').alt = photo.description;
-    photoElement.querySelector('.picture__info').querySelector('.picture__likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__info').querySelector('.picture__comments').textContent = photo.comments.length;
+    photoElement.querySelector('.picture__img').src = getUrl;
+    photoElement.querySelector('.picture__img').alt = description;
+    photoElement.querySelector('.picture__info').querySelector('.picture__likes').textContent = likes;
+    photoElement.querySelector('.picture__info').querySelector('.picture__comments').textContent = comments.length;
 
     photoListFragment.append(photoElement);
   });

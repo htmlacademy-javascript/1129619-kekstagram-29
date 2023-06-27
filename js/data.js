@@ -93,7 +93,7 @@ const createComment = () => ({
 
 const createPhotoPost = () => ({
   id: getIdAutorPost(),
-  getUrlurl: getUrl(),
+  getUrl: getUrl(),
   description: getRandomArrayEl(DESCRIPTION),
   likes: getRandomInteger(Likes.MIN, Likes.MAX),
   comments: Array.from({ length: getRandomInteger(Comments.MIN_QTY, Comments.MAX_QTY) }, createComment),
