@@ -17,3 +17,5 @@ similarPhotoPost.forEach(({ getUrl, description, likes, comments }) => {
 
 
 listPhoto.append(photoListFragment);
+
+export { listPhoto };
