@@ -1,3 +1,1 @@
-import { getRandomPicture } from './picture.js';
-
-getRandomPicture();
+import './picture.js';
