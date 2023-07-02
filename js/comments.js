@@ -2,9 +2,9 @@ import { similarPhotoPost } from './data.js';
 
 const commentsFragment = document.createDocumentFragment();
 
-similarPhotoPost.forEach((el) => {
+similarPhotoPost.forEach(({ comments }) => {
   const commentsList = document.createElement('ul');
-  el.comments.forEach((elem) => {
+  comments.forEach((elem) => {
     const commentConteiner = document.createElement('li');
     const commentСontent = document.createElement('img');
     const socialText = document.createElement('p');
@@ -30,4 +30,3 @@ similarPhotoPost.forEach((el) => {
 });
 
 export { commentsFragment };
-

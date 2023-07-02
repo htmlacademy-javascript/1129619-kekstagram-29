@@ -16,7 +16,6 @@ const tagBody = document.querySelector('body');
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   tagBody.classList.remove('modal-open');
-  commentsForPhoto.innerHTML = '';
 };
 
 const openBigPicture = (evt) => {
@@ -40,10 +39,6 @@ const openBigPicture = (evt) => {
     // Какая то шляпа по добавлению комментариев
     commentsForPhoto.innerHTML = '';
     commentsForPhoto.append(commentsFragment.children[0]);
-    // console.log(commentsFragment.children[0].childNodes);
-
-    // console.log(commentsForPhoto.innerHTML);
-    // console.log(commentsFragment.children[0].children);
 
     document.addEventListener('keydown', (event) => {
       if (isEscapeKey(event)) {
@@ -51,8 +46,6 @@ const openBigPicture = (evt) => {
         closeBigPicture();
       }
     });
-
-
   }
 };
 
