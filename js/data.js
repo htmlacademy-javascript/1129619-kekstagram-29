@@ -47,12 +47,12 @@ const Offers = {
 };
 
 const Comments = {
-  MIN_QTY: 0,
-  MAX_QTY: 30,
+  MIN_QTY: 1,
+  MAX_QTY: 6,
 };
 
 const Avatars = {
-  MIN_VALUE: 0,
+  MIN_VALUE: 1,
   MAX_VALUE: 6,
 };
 

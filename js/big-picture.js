@@ -1,5 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { listPhoto } from './picture.js';
+import { commentsFragment } from './comments.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
@@ -9,11 +10,13 @@ const bigPictureComments = bigPicture.querySelector('.comments-count');
 const bigPictureDiscription = bigPicture.querySelector('.social__caption');
 const socialCommentCount = bigPicture.querySelector('.social__comment-count');
 const commentsLoader = bigPicture.querySelector('.comments-loader');
+const commentsForPhoto = bigPicture.querySelector('.social__comments');
 const tagBody = document.querySelector('body');
 
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   tagBody.classList.remove('modal-open');
+  commentsForPhoto.innerHTML = '';
 };
 
 const openBigPicture = (evt) => {
@@ -34,17 +37,26 @@ const openBigPicture = (evt) => {
     bigPictureComments.textContent = commentsForPicture.textContent;
     bigPictureDiscription.textContent = evt.target.alt;
 
+    // Какая то шляпа по добавлению комментариев
+    commentsForPhoto.innerHTML = '';
+    commentsForPhoto.append(commentsFragment.children[0]);
+    // console.log(commentsFragment.children[0].childNodes);
+
+    // console.log(commentsForPhoto.innerHTML);
+    // console.log(commentsFragment.children[0].children);
+
     document.addEventListener('keydown', (event) => {
       if (isEscapeKey(event)) {
         event.preventDefault();
         closeBigPicture();
       }
     });
+
+
   }
 };
 
 listPhoto.addEventListener('click', openBigPicture);
 
 cancelBigPicture.addEventListener('click', closeBigPicture);
-
 
