@@ -66,10 +66,23 @@ const createIdGenerator = () => {
   };
 };
 
+const createIdUrl = () => {
+  let lastGeneratedId = 0;
+
+  return function () {
+
+    if (lastGeneratedId <= 25) {
+      lastGeneratedId += 1;
+      return lastGeneratedId;
+    }
+  };
+};
+
+const createUrl = createIdUrl();
+
 const getIdAutorPost = createIdGenerator();
 const getIdComments = createIdGenerator();
-const getUrl = () => `photos/${getRandomInteger(Id.START, Id.END)}.jpg`;
-
+const getUrl = () => `photos/${createUrl()}.jpg`;
 
 const getAvatar = () => `img/avatar-${getRandomInteger(Avatars.MIN_VALUE, Avatars.MAX_VALUE)}.svg`;
 
