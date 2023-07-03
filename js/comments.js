@@ -30,3 +30,5 @@ similarPhotoPost.forEach(({ comments }) => {
 });
 
 export { commentsFragment };
+
+console.log(commentsFragment);

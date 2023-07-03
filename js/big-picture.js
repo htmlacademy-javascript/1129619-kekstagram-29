@@ -13,9 +13,18 @@ const commentsLoader = bigPicture.querySelector('.comments-loader');
 const commentsForPhoto = bigPicture.querySelector('.social__comments');
 const tagBody = document.querySelector('body');
 
+const onDocumentKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeBigPicture();
+  }
+};
+
 const closeBigPicture = () => {
   bigPicture.classList.add('hidden');
   tagBody.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 const openBigPicture = (evt) => {
@@ -40,12 +49,7 @@ const openBigPicture = (evt) => {
     commentsForPhoto.innerHTML = '';
     commentsForPhoto.append(commentsFragment.children[0]);
 
-    document.addEventListener('keydown', (event) => {
-      if (isEscapeKey(event)) {
-        event.preventDefault();
-        closeBigPicture();
-      }
-    });
+    document.addEventListener('keydown', onDocumentKeydown);
   }
 };
 
