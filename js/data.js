@@ -114,4 +114,4 @@ const createPhotoPost = () => ({
 
 const similarPhotoPost = Array.from({ length: Id.END }, createPhotoPost);
 
-export {similarPhotoPost};
+export { similarPhotoPost };
