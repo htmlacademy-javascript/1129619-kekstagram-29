@@ -5,8 +5,9 @@ const listPhoto = document.querySelector('.pictures');
 const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const photoListFragment = document.createDocumentFragment();
 
-similarPhotoPost.forEach(({ getUrl, description, likes, comments }) => {
+similarPhotoPost.forEach(({ id, getUrl, description, likes, comments }) => {
   const photoElement = simularPictureTemplate.cloneNode(true);
+  photoElement.querySelector('.picture__img').id = id;
   photoElement.querySelector('.picture__img').src = getUrl;
   photoElement.querySelector('.picture__img').alt = description;
   photoElement.querySelector('.picture__info').querySelector('.picture__likes').textContent = likes;
@@ -17,3 +18,5 @@ similarPhotoPost.forEach(({ getUrl, description, likes, comments }) => {
 
 
 listPhoto.append(photoListFragment);
+
+export { listPhoto };

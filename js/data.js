@@ -47,12 +47,12 @@ const Offers = {
 };
 
 const Comments = {
-  MIN_QTY: 0,
-  MAX_QTY: 30,
+  MIN_QTY: 1,
+  MAX_QTY: 6,
 };
 
 const Avatars = {
-  MIN_VALUE: 0,
+  MIN_VALUE: 1,
   MAX_VALUE: 6,
 };
 
@@ -66,10 +66,23 @@ const createIdGenerator = () => {
   };
 };
 
+const createIdUrl = () => {
+  let lastGeneratedId = 0;
+
+  return function () {
+
+    if (lastGeneratedId <= 25) {
+      lastGeneratedId += 1;
+      return lastGeneratedId;
+    }
+  };
+};
+
+const createUrl = createIdUrl();
+
 const getIdAutorPost = createIdGenerator();
 const getIdComments = createIdGenerator();
-const getUrl = () => `photos/${getRandomInteger(Id.START, Id.END)}.jpg`;
-
+const getUrl = () => `photos/${createUrl()}.jpg`;
 
 const getAvatar = () => `img/avatar-${getRandomInteger(Avatars.MIN_VALUE, Avatars.MAX_VALUE)}.svg`;
 
@@ -101,4 +114,4 @@ const createPhotoPost = () => ({
 
 const similarPhotoPost = Array.from({ length: Id.END }, createPhotoPost);
 
-export {similarPhotoPost};
+export { similarPhotoPost };
