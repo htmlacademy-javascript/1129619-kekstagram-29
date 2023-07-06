@@ -2,6 +2,7 @@ import { isEscapeKey } from './util.js';
 import { listPhoto } from './picture.js';
 import { similarPhotoPost } from './data.js';
 
+const QTY_UPLOADED_COMMENTS = 5;
 const bigPicture = document.querySelector('.big-picture');
 const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
 const bigPictureImg = bigPicture.querySelector('.big-picture__img img');
@@ -65,7 +66,10 @@ const hideCommentsLoader = (commentsArr) => {
 const counterComments = () => {
   let firstShow = 5;
 
-  return () => firstShow += 5;
+  return () => {
+    firstShow += QTY_UPLOADED_COMMENTS;
+    return firstShow;
+  };
 };
 
 const openBigPicture = (evt) => {
