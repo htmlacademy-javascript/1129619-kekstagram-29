@@ -57,11 +57,7 @@ const onDocumentKeydown = (evt) => {
 const hideCommentsLoader = (commentsArr) => {
   if (commentsArr.children.length >= bigPictureComments.textContent) {
     commentsLoader.classList.add('hidden');
-  }
-};
-
-const antiHideCommentsLoader = (commentsArr) => {
-  if (commentsArr.children.length < bigPictureComments.textContent) {
+  } else {
     commentsLoader.classList.remove('hidden');
   }
 };
@@ -102,7 +98,6 @@ const openBigPicture = (evt) => {
     socialCommentCount.innerHTML = `${getQtyShowedComments(commentForPhoto)} из ${bigPictureComments.textContent} комментариев`;
 
     hideCommentsLoader(commentsForPhoto);
-    antiHideCommentsLoader(commentsForPhoto);
 
     socialCommentsLoader.addEventListener('click', () => {
       commentsForPhoto.innerHTML = '';
