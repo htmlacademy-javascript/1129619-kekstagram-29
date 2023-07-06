@@ -35,8 +35,15 @@ const getCommentsPost = (commentsArr) => {
     commentConteiner.append(socialText);
 
     commentsFragment.append(commentConteiner);
+
   });
   commentsForPhoto.append(commentsFragment);
+};
+
+// считает количество фотографий, которые уже показаны
+const getQtyShowedComments = (commentForPhoto) => {
+  const hiddenComments = commentsForPhoto.querySelectorAll('.hidden');
+  return commentForPhoto.length - hiddenComments.length;
 };
 
 const onDocumentKeydown = (evt) => {
@@ -45,6 +52,24 @@ const onDocumentKeydown = (evt) => {
     bigPicture.classList.add('hidden');
     tagBody.classList.remove('modal-open');
   }
+};
+
+const hideCommentsLoader = (commentsArr) => {
+  if (commentsArr.children.length >= bigPictureComments.textContent) {
+    commentsLoader.classList.add('hidden');
+  }
+};
+
+const antiHideCommentsLoader = (commentsArr) => {
+  if (commentsArr.children.length < bigPictureComments.textContent) {
+    commentsLoader.classList.remove('hidden');
+  }
+};
+
+const counterComments = () => {
+  let firstShow = 5;
+
+  return () => firstShow += 5;
 };
 
 const openBigPicture = (evt) => {
@@ -59,8 +84,6 @@ const openBigPicture = (evt) => {
     bigPictureImg.src = evt.target.src;
 
     tagBody.classList.add('modal-open');
-    socialCommentCount.classList.add('hidden');
-    commentsLoader.classList.add('hidden');
 
     bigPictureLikes.textContent = likesForPicture.textContent;
     bigPictureComments.textContent = commentsForPicture.textContent;
@@ -68,7 +91,27 @@ const openBigPicture = (evt) => {
 
     const topicalId = similarPhotoPost.find((el) => el.id === Number(evt.target.id));
     commentsForPhoto.innerHTML = '';
-    getCommentsPost(topicalId.comments);
+    getCommentsPost(topicalId.comments.slice(0, 5));
+
+    const getNextNumComments = counterComments();
+
+    const commentForPhoto = document.querySelectorAll('.social__comment');
+
+    const socialCommentsLoader = document.querySelector('.comments-loader');
+
+    socialCommentCount.innerHTML = `${getQtyShowedComments(commentForPhoto)} из ${bigPictureComments.textContent} комментариев`;
+
+    hideCommentsLoader(commentsForPhoto);
+    antiHideCommentsLoader(commentsForPhoto);
+
+    socialCommentsLoader.addEventListener('click', () => {
+      commentsForPhoto.innerHTML = '';
+      getCommentsPost(topicalId.comments.slice(0, getNextNumComments()));
+      socialCommentCount.innerHTML = `${commentsForPhoto.children.length} из ${bigPictureComments.textContent} комментариев`;
+
+      hideCommentsLoader(commentsForPhoto);
+
+    });
 
     document.addEventListener('keydown', onDocumentKeydown);
   }
