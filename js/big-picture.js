@@ -41,7 +41,6 @@ const getCommentsPost = (commentsArr) => {
   commentsForPhoto.append(commentsFragment);
 };
 
-// считает количество фотографий, которые уже показаны
 const getQtyShowedComments = (commentForPhoto) => {
   const hiddenComments = commentsForPhoto.querySelectorAll('.hidden');
   return commentForPhoto.length - hiddenComments.length;
