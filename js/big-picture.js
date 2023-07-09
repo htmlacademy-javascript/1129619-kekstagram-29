@@ -73,10 +73,9 @@ const counterComments = () => {
 };
 
 const openBigPicture = (evt) => {
-  evt.preventDefault();
-
   if (evt.target.matches('.picture__img')) {
 
+    evt.preventDefault();
     const likesForPicture = evt.target.parentNode.querySelector('.picture__likes');
     const commentsForPicture = evt.target.parentNode.querySelector('.picture__comments');
 
