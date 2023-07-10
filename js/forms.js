@@ -40,7 +40,7 @@ const onPopupEscPress = function (evt) {
 const cheskValidHashtag = () => {
   const hashtagArr = textHashtags.value.split(' ');
   hashtagArr.forEach((hashtag) => {
-    const testOfValid = ((hashtag[0] === '#') && (1 < hashtag.length) && (hashtag.length <= 20) && (regular.test(hashtag)));
+    const testOfValid = (regular.test(hashtag));
     return testOfValid;
   });
 };
