@@ -41,7 +41,6 @@ const getCommentsPost = (commentsArr) => {
   commentsForPhoto.append(commentsFragment);
 };
 
-// считает количество фотографий, которые уже показаны
 const getQtyShowedComments = (commentForPhoto) => {
   const hiddenComments = commentsForPhoto.querySelectorAll('.hidden');
   return commentForPhoto.length - hiddenComments.length;
@@ -73,10 +72,9 @@ const counterComments = () => {
 };
 
 const openBigPicture = (evt) => {
-  evt.preventDefault();
-
   if (evt.target.matches('.picture__img')) {
 
+    evt.preventDefault();
     const likesForPicture = evt.target.parentNode.querySelector('.picture__likes');
     const commentsForPicture = evt.target.parentNode.querySelector('.picture__comments');
 
