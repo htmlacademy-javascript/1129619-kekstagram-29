@@ -9,6 +9,7 @@ const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 
 const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const regex = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
 const prestine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -51,11 +52,8 @@ const checkCountHashtag = () => {
 };
 
 const checkRepeatingGashtag = () => {
-  const hashtagArr = textHashtags.value.split(' ');
-  hashtagArr.filter((number, index, numbers) => {
-    const result = numbers.indexOf(number) !== index;
-    return(!result);
-  });
+  const repeatedWords = textHashtags.value.match(regex);
+  return !repeatedWords;
 };
 
 prestine.addValidator(textHashtags, cheskValidHashtag, 'Введён невалидный хэш-тег');
