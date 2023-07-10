@@ -22,6 +22,8 @@ const prestine = new Pristine(imgUploadForm, {
 buttonUploadFile.addEventListener('change', () => {
   imgUploadOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
+  textHashtags.value = '';
+  textDescription.value = '';
 });
 
 const onCloseForm = () => {
@@ -30,7 +32,7 @@ const onCloseForm = () => {
 };
 
 const onPopupEscPress = function (evt) {
-  if (!(textHashtags === document.activeElement) || !(textDescription === document.activeElement)) {
+  if ((!textHashtags === document.activeElement) || (!textDescription === document.activeElement)) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       onCloseForm();
