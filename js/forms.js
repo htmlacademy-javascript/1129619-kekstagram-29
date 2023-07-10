@@ -40,10 +40,11 @@ const onPopupEscPress = function (evt) {
 
 const cheskValidHashtag = () => {
   const hashtagArr = textHashtags.value.split(' ');
+  let isValid;
   hashtagArr.forEach((hashtag) => {
-    const testOfValid = (regular.test(hashtag));
-    return testOfValid;
+    isValid = (regular.test(hashtag));
   });
+  return isValid;
 };
 
 const checkCountHashtag = () => {
