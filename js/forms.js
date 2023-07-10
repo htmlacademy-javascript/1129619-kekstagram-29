@@ -9,7 +9,7 @@ const textHashtags = document.querySelector('.text__hashtags');
 const textDescription = document.querySelector('.text__description');
 
 const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-const regex = /\b(\w+)\b(?=.*\b\1\b)/gi;
+const regForRepeat = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
 const prestine = new Pristine(imgUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -52,7 +52,7 @@ const checkCountHashtag = () => {
 };
 
 const checkRepeatingGashtag = () => {
-  const repeatedWords = textHashtags.value.match(regex);
+  const repeatedWords = textHashtags.value.match(regForRepeat);
   return !repeatedWords;
 };
 
