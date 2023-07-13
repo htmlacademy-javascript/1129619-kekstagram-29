@@ -161,3 +161,7 @@ effectsList.addEventListener('click', (evt) => {
     });
   }
 });
+
+imgUploadForm.addEventListener('change', (evt)=> {
+  console.log(evt.target);
+});
