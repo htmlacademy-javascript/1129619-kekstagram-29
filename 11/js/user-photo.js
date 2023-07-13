@@ -1,3 +1,4 @@
+import { prestine } from './forms.js';
 import { isEscapeKey } from './util.js';
 
 const buttonUploadFile = document.getElementById('upload-file');
@@ -11,18 +12,21 @@ const effectsList = document.querySelector('.effects__list');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+const imgUploadForm = document.querySelector('.img-upload__form');
+
 
 buttonUploadFile.addEventListener('change', () => {
   imgUploadOverlay.classList.remove('hidden');
   imgUploadEffectLevel.classList.add('hidden');
   body.classList.add('modal-open');
-  textHashtags.value = '';
-  textDescription.value = '';
+  // document.addEventListener('keydown', )
 });
 
 const onCloseForm = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
+  imgUploadForm.reset();
+  prestine.reset();
 };
 
 const onPopupEscPress = function (evt) {
@@ -73,11 +77,6 @@ noUiSlider.create(effectLevelSlider, {
     },
   },
 });
-
-// effectLevelSlider.noUiSlider.on('update', () => {
-//   effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-//   // imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
-// });
 
 effectsList.addEventListener('click', (evt) => {
   if (evt.target.id !== 'effect-none') {
@@ -161,4 +160,8 @@ effectsList.addEventListener('click', (evt) => {
       imgUploadPreview.style.filter = `brightness(${effectLevelValue.value})`;
     });
   }
+});
+
+imgUploadForm.addEventListener('change', (evt)=> {
+  console.log(evt.target);
 });

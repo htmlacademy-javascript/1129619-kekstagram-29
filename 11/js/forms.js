@@ -41,3 +41,5 @@ imgUploadForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   prestine.validate();
 });
+
+export { prestine };
