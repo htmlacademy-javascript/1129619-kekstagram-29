@@ -1,11 +1,11 @@
-// import { similarPhotoPost } from './data.js';
-
+import { getData } from './api.js';
+import { showAlert } from './util.js';
 
 const listPhoto = document.querySelector('.pictures');
 const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const photoListFragment = document.createDocumentFragment();
 
-const getPosts = (data) => {
+const renderPosts = (data) => {
   data.forEach(({ id, url, description, likes, comments }) => {
     const photoElement = simularPictureTemplate.cloneNode(true);
     photoElement.querySelector('.picture__img').id = id;
@@ -19,13 +19,12 @@ const getPosts = (data) => {
   listPhoto.append(photoListFragment);
 };
 
-fetch ('https://29.javascript.pages.academy/kekstagram/data')
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    getPosts(data);
-  });
+try {
+  const date = await getData();
+  renderPosts(date);
+} catch (err) {
+  showAlert(err.message);
+}
 
-  // console.log(listPhoto)
 
 export { listPhoto };

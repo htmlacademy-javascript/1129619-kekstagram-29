@@ -1,7 +1,9 @@
 import { isEscapeKey } from './util.js';
 import { listPhoto } from './picture.js';
-// import { similarPhotoPost } from './data.js';
+import { getData } from './api.js';
 
+
+const date = await getData();
 const QTY_UPLOADED_COMMENTS = 5;
 const bigPicture = document.querySelector('.big-picture');
 const cancelBigPicture = bigPicture.querySelector('.big-picture__cancel');
@@ -87,7 +89,7 @@ const openBigPicture = (evt) => {
     bigPictureComments.textContent = commentsForPicture.textContent;
     bigPictureDiscription.textContent = evt.target.alt;
 
-    const topicalId = similarPhotoPost.find((el) => el.id === Number(evt.target.id));
+    const topicalId = date.find((el) => el.id === Number(evt.target.id));
     commentsForPhoto.innerHTML = '';
     getCommentsPost(topicalId.comments.slice(0, 5));
 
