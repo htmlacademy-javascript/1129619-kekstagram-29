@@ -1,3 +1,4 @@
+const MAX_COUNT_HASHTAG = 5;
 const imgUploadForm = document.querySelector('.img-upload__form');
 const textHashtags = document.querySelector('.text__hashtags');
 
@@ -24,7 +25,7 @@ const cheskValidHashtag = () => {
 
 const checkCountHashtag = () => {
   const hashtagArr = textHashtags.value.split(' ');
-  return (hashtagArr.length <= 5);
+  return (hashtagArr.length <= MAX_COUNT_HASHTAG);
 };
 
 const checkRepeatingGashtag = () => {
