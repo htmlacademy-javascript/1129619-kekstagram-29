@@ -1,6 +1,6 @@
 import { isEscapeKey } from './util.js';
 import { listPhoto } from './picture.js';
-import { similarPhotoPost } from './data.js';
+// import { similarPhotoPost } from './data.js';
 
 const QTY_UPLOADED_COMMENTS = 5;
 const bigPicture = document.querySelector('.big-picture');

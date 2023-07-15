@@ -3,3 +3,4 @@ import './picture.js';
 import './forms.js';
 import './photo-forms.js';
 import './user-photo.js';
+import './api.js';
