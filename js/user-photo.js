@@ -14,6 +14,59 @@ const effectLevelValue = document.querySelector('.effect-level__value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
 const imgUploadForm = document.querySelector('.img-upload__form');
 
+const sliderEffects = {
+  none: {
+    range: {
+      min: 0,
+      max: 100,
+    },
+    start: 100,
+    step: 1,
+    connect: 'lower',
+  },
+  chrome: {
+    range: {
+      min: 0,
+      max: 1
+    },
+    start: 1,
+    step: 0.1
+  },
+  sepia: {
+    range: {
+      min: 0,
+      max: 1
+    },
+    start: 1,
+    step: 0.1
+  },
+  marvin: {
+    range: {
+      min: 0,
+      max: 100
+    },
+    start: 100,
+    step: 1
+  },
+  phobos: {
+    range: {
+      min: 0,
+      max: 3
+    },
+    start: 3,
+    step: 0.1
+  },
+  heat: {
+    range: {
+      min: 1,
+      max: 3
+    },
+    start: 3,
+    step: 0.1
+  }
+};
+
+const updateSlider = (effect) => effectLevelSlider.noUiSlider.updateOptions(sliderEffects[effect]);
 
 buttonUploadFile.addEventListener('change', () => {
   imgUploadOverlay.classList.remove('hidden');
@@ -62,7 +115,7 @@ noUiSlider.create(effectLevelSlider, {
     min: 0,
     max: 100,
   },
-  start: 80,
+  start: 100,
   step: 1,
   connect: 'lower',
   format: {
@@ -78,7 +131,7 @@ noUiSlider.create(effectLevelSlider, {
   },
 });
 
-effectsList.addEventListener('click', (evt) => {
+effectsList.addEventListener('change', (evt) => {
   if (evt.target.id !== 'effect-none') {
     imgUploadEffectLevel.classList.remove('hidden');
   } else {
@@ -86,15 +139,10 @@ effectsList.addEventListener('click', (evt) => {
     imgUploadPreview.style.filter = '';
   }
 
+  // effectLevelValue.value = effectLevelSlider.noUiSlider.get();
+
   if (evt.target.id === 'effect-chrome') {
-    effectLevelSlider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
+    updateSlider('chrome');
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
       imgUploadPreview.style.filter = `grayscale(${effectLevelValue.value})`;
@@ -102,14 +150,7 @@ effectsList.addEventListener('click', (evt) => {
   }
 
   if (evt.target.id === 'effect-sepia') {
-    effectLevelSlider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
+    updateSlider('sepia');
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
       imgUploadPreview.style.filter = `sepia(${effectLevelValue.value})`;
@@ -117,14 +158,7 @@ effectsList.addEventListener('click', (evt) => {
   }
 
   if (evt.target.id === 'effect-marvin') {
-    effectLevelSlider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
+    updateSlider('marvin');
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
       imgUploadPreview.style.filter = `invert(${effectLevelValue.value}%)`;
@@ -132,14 +166,7 @@ effectsList.addEventListener('click', (evt) => {
   }
 
   if (evt.target.id === 'effect-phobos') {
-    effectLevelSlider.noUiSlider.updateOptions({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
+    updateSlider('phobos');
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
       imgUploadPreview.style.filter = `blur(${effectLevelValue.value}px)`;
@@ -147,14 +174,7 @@ effectsList.addEventListener('click', (evt) => {
   }
 
   if (evt.target.id === 'effect-heat') {
-    effectLevelSlider.noUiSlider.updateOptions({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
+    updateSlider('heat');
     effectLevelSlider.noUiSlider.on('update', () => {
       effectLevelValue.value = effectLevelSlider.noUiSlider.get();
       imgUploadPreview.style.filter = `brightness(${effectLevelValue.value})`;
@@ -162,6 +182,4 @@ effectsList.addEventListener('click', (evt) => {
   }
 });
 
-imgUploadForm.addEventListener('change', (evt)=> {
-  console.log(evt.target);
-});
+export { onCloseForm };
