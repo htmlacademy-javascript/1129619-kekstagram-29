@@ -181,3 +181,5 @@ effectsList.addEventListener('change', (evt) => {
     });
   }
 });
+
+export { onCloseForm };

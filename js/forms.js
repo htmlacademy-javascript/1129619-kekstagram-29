@@ -1,3 +1,7 @@
+import { showSuccessMessage, showErrorMessage } from './message.js';
+import { sendData } from './api.js';
+import { onCloseForm } from './user-photo.js';
+
 const SubmitButtonText = {
   SUBMITTING: 'Отправка...',
   IDLE: 'ОПУБЛИКОВАТЬ',
@@ -85,5 +89,14 @@ const setOnFormSubmit = (callback) => {
   });
 };
 
+setOnFormSubmit(async (data) => {
+  try {
+    await sendData(data);
+    onCloseForm();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+  }
+});
 
-export { prestine, setOnFormSubmit };
+export { prestine };
