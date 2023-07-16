@@ -139,8 +139,6 @@ effectsList.addEventListener('change', (evt) => {
     imgUploadPreview.style.filter = '';
   }
 
-  // effectLevelValue.value = effectLevelSlider.noUiSlider.get();
-
   if (evt.target.id === 'effect-chrome') {
     updateSlider('chrome');
     effectLevelSlider.noUiSlider.on('update', () => {
