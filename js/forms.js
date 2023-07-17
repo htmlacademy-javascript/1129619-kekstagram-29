@@ -1,6 +1,6 @@
 import { showSuccessMessage, showErrorMessage } from './message.js';
 import { sendData } from './api.js';
-import { onCloseForm } from './user-photo.js';
+import { onCloseForm } from './photo-filter.js';
 
 const SubmitButtonText = {
   SUBMITTING: 'Отправка...',

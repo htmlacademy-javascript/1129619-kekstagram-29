@@ -1,7 +1,8 @@
 import { getData } from './api.js';
-import { showAlert, getRandomArrayEl } from './util.js';
+import { showAlert, getRandomArrayEl, debounce } from './util.js';
 
 const MAX_RANDOM_AMOUNT = 10;
+const RERENDER_DELAY = 500;
 const listPhoto = document.querySelector('.pictures');
 const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imgFilters = document.querySelector('.img-filters');
