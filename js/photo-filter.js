@@ -1,9 +1,9 @@
 import { prestine } from './forms.js';
 import { isEscapeKey } from './util.js';
 
-const buttonUploadFile = document.getElementById('upload-file');
-const imgUploadOverlay = document.querySelector('.img-upload__overlay');
-const body = document.querySelector('body');
+const uploadFileElem = document.getElementById('upload-file');
+const imgUploadOverlayElem = document.querySelector('.img-upload__overlay');
+const bodyElem = document.querySelector('body');
 const textDescription = document.querySelector('.text__description');
 const textHashtags = document.querySelector('.text__hashtags');
 const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
@@ -69,12 +69,19 @@ const sliderEffects = {
 const updateSlider = (effect) => effectLevelSlider.noUiSlider.updateOptions(sliderEffects[effect]);
 
 const onCloseForm = () => {
-  imgUploadOverlay.classList.add('hidden');
-  body.classList.remove('modal-open');
+  imgUploadOverlayElem.classList.add('hidden');
+  bodyElem.classList.remove('modal-open');
   imgUploadForm.reset();
   prestine.reset();
   document.removeEventListener('keydown', onPopupEscPress);
+};
 
+const resetForm = () => {
+  imgUploadOverlayElem.classList.remove('hidden');
+  imgUploadEffectLevel.classList.add('hidden');
+  bodyElem.classList.add('modal-open');
+  textHashtags.value = '';
+  textDescription.value = '';
 };
 
 function onPopupEscPress(evt) {
@@ -86,7 +93,7 @@ function onPopupEscPress(evt) {
   }
 }
 
-effectsList.addEventListener('click', (evt) => {
+effectsList.addEventListener('change', (evt) => {
   if (evt.target.id !== 'effect-none') {
     imgUploadEffectLevel.classList.remove('hidden');
   } else {
@@ -94,12 +101,8 @@ effectsList.addEventListener('click', (evt) => {
   }
 });
 
-buttonUploadFile.addEventListener('change', () => {
-  imgUploadOverlay.classList.remove('hidden');
-  imgUploadEffectLevel.classList.add('hidden');
-  body.classList.add('modal-open');
-  textHashtags.value = '';
-  textDescription.value = '';
+uploadFileElem.addEventListener('change', () => {
+  resetForm();
   imgUploadCancel.addEventListener('click', onCloseForm);
   document.addEventListener('keydown', onPopupEscPress);
 });

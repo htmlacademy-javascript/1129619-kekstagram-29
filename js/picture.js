@@ -9,8 +9,7 @@ const imgFilters = document.querySelector('.img-filters');
 const photoListFragment = document.createDocumentFragment();
 const imgFiltersBlock = document.querySelector('.img-filters__form');
 const buttonsFilter = imgFiltersBlock.querySelectorAll('.img-filters__button');
-const date = await getData();
-
+const photoWithData = await getData();
 
 const compareComments = (a, b) => a.comments < b.comments ? 1 : -1;
 
@@ -28,7 +27,7 @@ const renderPosts = (data) => {
   listPhoto.append(photoListFragment);
 };
 
-const swohSortPicture = (pictures, filter) => {
+const shwohSortPicture = (pictures, filter) => {
   listPhoto.querySelectorAll('.picture').forEach((el) => {
     el.remove();
   });
@@ -57,16 +56,16 @@ const swohSortPicture = (pictures, filter) => {
 imgFilters.classList.remove('img-filters--inactive');
 
 try {
-  renderPosts(date);
+  renderPosts(photoWithData);
   imgFiltersBlock.addEventListener('click', (evt) => {
     buttonsFilter.forEach((el) => {
       el.classList.remove('img-filters__button--active');
     });
     evt.target.classList.add('img-filters__button--active');
-    swohSortPicture(date, evt.target.id);
+    shwohSortPicture(photoWithData, evt.target.id);
   });
 } catch (err) {
   showAlert(err.message);
 }
 
-export { listPhoto };
+export { listPhoto, photoWithData };
