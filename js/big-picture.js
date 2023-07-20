@@ -124,7 +124,6 @@ const closeBigPicture = () => {
 };
 
 listPhoto.addEventListener('click', openBigPicture);
-
 cancelBigPicture.addEventListener('click', closeBigPicture);
 
 export { date };

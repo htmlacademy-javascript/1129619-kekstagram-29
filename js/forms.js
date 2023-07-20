@@ -18,7 +18,7 @@ const scaleControlBigger = document.querySelector('.scale__control--bigger');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
 const submitButton = document.querySelector('.img-upload__submit');
 
-const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const regular = /^#[a-zа-яë0-9]{1,19}$/i;
 const regForRepeat = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
 const prestine = new Pristine(imgUploadForm, {
@@ -29,12 +29,23 @@ const prestine = new Pristine(imgUploadForm, {
   errorTextTag: 'p',
 });
 
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  submitButton.textContent = isDisabled
+    ? SubmitButtonText.SUBMITTING
+    : SubmitButtonText.IDLE;
+};
+
 const cheskValidHashtag = () => {
   const hashtagArr = textHashtags.value.split(' ');
   let isValid;
-  hashtagArr.forEach((hashtag) => {
-    isValid = (regular.test(hashtag));
-  });
+  if (textHashtags.value === '') {
+    isValid = true;
+  } else {
+    hashtagArr.forEach((hashtag) => {
+      isValid = (regular.test(hashtag));
+    });
+  }
   return isValid;
 };
 
@@ -48,17 +59,10 @@ const checkRepeatingGashtag = () => {
   return !repeatedWords;
 };
 
-const toggleSubmitButton = (isDisabled) => {
-  submitButton.disabled = isDisabled;
-  submitButton.textContent = isDisabled
-    ? SubmitButtonText.SUBMITTING
-    : SubmitButtonText.IDLE;
-};
-
 scaleControlSmaller.addEventListener('click', () => {
   const presentValue = Number(scaleControlValue.value.slice(0, -1));
   if (presentValue > VALUE_STEP) {
-    scaleControlValue.value = (`${presentValue - VALUE_STEP }%`);
+    scaleControlValue.value = (`${presentValue - VALUE_STEP}%`);
     imgUploadPreview.style.transform = `scale(${((presentValue - VALUE_STEP) / 100)})`;
   }
 });
@@ -66,7 +70,7 @@ scaleControlSmaller.addEventListener('click', () => {
 scaleControlBigger.addEventListener('click', () => {
   const presentValue = Number(scaleControlValue.value.slice(0, -1));
   if (presentValue < 100) {
-    scaleControlValue.value = (`${presentValue + 25 }%`);
+    scaleControlValue.value = (`${presentValue + 25}%`);
     imgUploadPreview.style.transform = `scale(${((presentValue + VALUE_STEP) / 100)})`;
   }
 });
@@ -81,7 +85,7 @@ const setOnFormSubmit = (callback) => {
   imgUploadForm.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = prestine.validate();
-    if(isValid) {
+    if (isValid) {
       toggleSubmitButton(true);
       await callback(new FormData(imgUploadForm));
       toggleSubmitButton();

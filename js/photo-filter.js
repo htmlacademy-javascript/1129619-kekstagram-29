@@ -68,31 +68,23 @@ const sliderEffects = {
 
 const updateSlider = (effect) => effectLevelSlider.noUiSlider.updateOptions(sliderEffects[effect]);
 
-buttonUploadFile.addEventListener('change', () => {
-  imgUploadOverlay.classList.remove('hidden');
-  imgUploadEffectLevel.classList.add('hidden');
-  body.classList.add('modal-open');
-  // document.addEventListener('keydown', )
-});
-
 const onCloseForm = () => {
   imgUploadOverlay.classList.add('hidden');
   body.classList.remove('modal-open');
   imgUploadForm.reset();
   prestine.reset();
+  document.removeEventListener('keydown', onPopupEscPress);
+
 };
 
-const onPopupEscPress = function (evt) {
-  if ((!textHashtags === document.activeElement) || (!textDescription === document.activeElement)) {
+function onPopupEscPress(evt) {
+  if ((textHashtags !== document.activeElement) && (textDescription !== document.activeElement)) {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       onCloseForm();
     }
   }
-};
-
-imgUploadCancel.addEventListener('click', onCloseForm);
-document.addEventListener('keydown', onPopupEscPress);
+}
 
 effectsList.addEventListener('click', (evt) => {
   if (evt.target.id !== 'effect-none') {
@@ -108,6 +100,8 @@ buttonUploadFile.addEventListener('change', () => {
   body.classList.add('modal-open');
   textHashtags.value = '';
   textDescription.value = '';
+  imgUploadCancel.addEventListener('click', onCloseForm);
+  document.addEventListener('keydown', onPopupEscPress);
 });
 
 noUiSlider.create(effectLevelSlider, {
