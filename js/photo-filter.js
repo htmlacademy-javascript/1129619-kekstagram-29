@@ -12,7 +12,9 @@ const effectsList = document.querySelector('.effects__list');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelValue = document.querySelector('.effect-level__value');
 const imgUploadPreview = document.querySelector('.img-upload__preview');
+const uploadPreviewPhoto = document.querySelector('.img-upload__preview img');
 const imgUploadForm = document.querySelector('.img-upload__form');
+
 
 const sliderEffects = {
   none: {
@@ -73,6 +75,8 @@ const onCloseForm = () => {
   bodyElem.classList.remove('modal-open');
   imgUploadForm.reset();
   prestine.reset();
+  imgUploadPreview.style.filter = '';
+  uploadPreviewPhoto.style.transform = 'scale(1)';
   document.removeEventListener('keydown', onPopupEscPress);
 };
 

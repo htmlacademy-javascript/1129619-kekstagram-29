@@ -11,7 +11,7 @@ const MAX_COUNT_HASHTAG = 5;
 const VALUE_STEP = 25;
 const imgUploadForm = document.querySelector('.img-upload__form');
 const textHashtags = document.querySelector('.text__hashtags');
-
+const textDescription = document.querySelector('.text__description');
 const scaleControlValue = document.querySelector('.scale__control--value');
 const scaleControlSmaller = document.querySelector('.scale__control--smaller');
 const scaleControlBigger = document.querySelector('.scale__control--bigger');
@@ -59,6 +59,12 @@ const checkRepeatingGashtag = () => {
   return !repeatedWords;
 };
 
+const lightDescription = () => {
+  if(textDescription.value.length <= 140) {
+    return true;
+  }
+};
+
 scaleControlSmaller.addEventListener('click', () => {
   const presentValue = Number(scaleControlValue.value.slice(0, -1));
   if (presentValue > VALUE_STEP) {
@@ -79,7 +85,7 @@ scaleControlBigger.addEventListener('click', () => {
 prestine.addValidator(textHashtags, cheskValidHashtag, 'Введён невалидный хэш-тег');
 prestine.addValidator(textHashtags, checkCountHashtag, 'Превышено количество хэш-тегов');
 prestine.addValidator(textHashtags, checkRepeatingGashtag, 'Хэш-теги повторяются');
-
+prestine.addValidator(textDescription, lightDescription, 'Максимальная длина комментария 140 символов');
 
 const setOnFormSubmit = (callback) => {
   imgUploadForm.addEventListener('submit', async (evt) => {

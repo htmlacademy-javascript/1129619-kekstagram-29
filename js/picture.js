@@ -2,7 +2,6 @@ import { getData } from './api.js';
 import { showAlert, getRandomArrayEl, debounce } from './util.js';
 
 const MAX_RANDOM_AMOUNT = 10;
-const RERENDER_DELAY = 500;
 const listPhoto = document.querySelector('.pictures');
 const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imgFilters = document.querySelector('.img-filters');
@@ -59,8 +58,12 @@ const setOnfilterClick = (callback) => {
       el.classList.remove('img-filters__button--active');
     });
     evt.target.classList.add('img-filters__button--active');
-    callback(shwohSortPicture(photoWithData, evt.target.id));
-    console.log(callback(shwohSortPicture(photoWithData, evt.target.id)));
+    callback();
+
+
+    // callback(shwohSortPicture(photoWithData, evt.target.id));
+    // console.log(callback(shwohSortPicture(photoWithData, evt.target.id)));
+
     // shwohSortPicture(photoWithData, evt.target.id);
   });
 };
@@ -69,7 +72,8 @@ imgFilters.classList.remove('img-filters--inactive');
 
 try {
   renderPosts(photoWithData);
-  setOnfilterClick(debounce);
+  setOnfilterClick(debounce(()=> renderPosts(photoWithData)));
+  // setOnfilterClick(debounce(()=> photoWithData));
 } catch (err) {
   showAlert(err.message);
 }
