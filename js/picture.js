@@ -7,8 +7,8 @@ const listPhoto = document.querySelector('.pictures');
 const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imgFilters = document.querySelector('.img-filters');
 const photoListFragment = document.createDocumentFragment();
-const imgFiltersBlock = document.querySelector('.img-filters__form');
-const buttonsFilter = imgFiltersBlock.querySelectorAll('.img-filters__button');
+const imgFiltersElem = document.querySelector('.img-filters__form');
+const buttonsFilter = imgFiltersElem.querySelectorAll('.img-filters__button');
 const photoWithData = await getData();
 
 const compareComments = (a, b) => a.comments < b.comments ? 1 : -1;
@@ -53,17 +53,23 @@ const shwohSortPicture = (pictures, filter) => {
   }
 };
 
-imgFilters.classList.remove('img-filters--inactive');
-
-try {
-  renderPosts(photoWithData);
-  imgFiltersBlock.addEventListener('click', (evt) => {
+const setOnfilterClick = (callback) => {
+  imgFiltersElem.addEventListener('click', (evt) => {
     buttonsFilter.forEach((el) => {
       el.classList.remove('img-filters__button--active');
     });
     evt.target.classList.add('img-filters__button--active');
-    shwohSortPicture(photoWithData, evt.target.id);
+    callback(shwohSortPicture(photoWithData, evt.target.id));
+    console.log(callback(shwohSortPicture(photoWithData, evt.target.id)));
+    // shwohSortPicture(photoWithData, evt.target.id);
   });
+};
+
+imgFilters.classList.remove('img-filters--inactive');
+
+try {
+  renderPosts(photoWithData);
+  setOnfilterClick(debounce);
 } catch (err) {
   showAlert(err.message);
 }
