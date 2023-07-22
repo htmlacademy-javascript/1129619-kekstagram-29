@@ -52,19 +52,14 @@ const shwohSortPicture = (pictures, filter) => {
   }
 };
 
-const setOnfilterClick = (callback) => {
+const setOnfilterClick = () => {
   imgFiltersElem.addEventListener('click', (evt) => {
     buttonsFilter.forEach((el) => {
       el.classList.remove('img-filters__button--active');
     });
     evt.target.classList.add('img-filters__button--active');
-    callback();
-
-
-    // callback(shwohSortPicture(photoWithData, evt.target.id));
-    // console.log(callback(shwohSortPicture(photoWithData, evt.target.id)));
-
-    // shwohSortPicture(photoWithData, evt.target.id);
+    shwohSortPicture(photoWithData, evt.target.id)
+    // callback();
   });
 };
 
@@ -72,8 +67,8 @@ imgFilters.classList.remove('img-filters--inactive');
 
 try {
   renderPosts(photoWithData);
-  setOnfilterClick(debounce(()=> renderPosts(photoWithData)));
-  // setOnfilterClick(debounce(()=> photoWithData));
+  setOnfilterClick();
+  // setOnfilterClick(shwohSortPicture(photoWithData, evt.target.id));
 } catch (err) {
   showAlert(err.message);
 }

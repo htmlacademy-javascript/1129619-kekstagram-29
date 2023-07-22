@@ -1,5 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
-const RERENDER_DELAY = 2000;
+const RERENDER_DELAY = 500;
 
 
 const showAlert = (message) => {
@@ -36,7 +36,6 @@ const debounce = (callback, timeoutDelay = RERENDER_DELAY) => {
   return (...rest) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
-    console.log('123');
   };
 };
 
