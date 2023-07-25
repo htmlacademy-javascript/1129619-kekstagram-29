@@ -1,5 +1,3 @@
-import { showAlert } from './util.js';
-
 const BASE_URL = 'https://29.javascript.pages.academy/kekstagram';
 
 const Route = {
