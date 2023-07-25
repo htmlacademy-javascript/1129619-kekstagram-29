@@ -80,7 +80,7 @@ const sliderEffects = {
   },
   heat: {
     range: {
-      min: 1,
+      min: FilterValue.START_SEPIA_CHROME,
       max: FilterValue.MAX_PHOBOS_HEAT
     },
     start: FilterValue.START_PHOBOS_HEAT,
