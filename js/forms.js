@@ -19,7 +19,7 @@ const scaleControlBiggerElem = document.querySelector('.scale__control--bigger')
 const imgUploadPreviewElem = document.querySelector('.img-upload__preview img');
 const submitButtonElem = document.querySelector('.img-upload__submit');
 
-const regularValid = /^#[a-zа-яë0-9]{1,19}$/i;
+const regValid = /^#[a-zа-яë0-9]{1,19}$/i;
 const regForRepeat = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
 const prestine = new Pristine(imgUploadFormElem, {
@@ -37,14 +37,14 @@ const toggleSubmitButton = (isDisabled) => {
     : SubmitButtonText.IDLE;
 };
 
-const cheskValidHashtag = () => {
+const checkValidHashtag = () => {
   const hashtagArr = textHashtagsElem.value.trim().split(' ');
   let isValid;
   if (textHashtagsElem.value === '') {
     isValid = true;
   } else {
     hashtagArr.forEach((hashtag) => {
-      isValid = (regularValid.test(hashtag));
+      isValid = (regValid.test(hashtag));
     });
   }
   return isValid;
@@ -105,7 +105,7 @@ setOnFormSubmit(async (data) => {
   }
 });
 
-prestine.addValidator(textHashtagsElem, cheskValidHashtag, 'Введён невалидный хэш-тег');
+prestine.addValidator(textHashtagsElem, checkValidHashtag, 'Введён невалидный хэш-тег');
 prestine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
 prestine.addValidator(textHashtagsElem, checkRepeatingGashtag, 'Хэш-теги повторяются');
 prestine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
