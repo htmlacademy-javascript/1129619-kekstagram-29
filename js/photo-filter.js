@@ -3,10 +3,17 @@ import { isEscapeKey } from './util.js';
 
 const FilterValue = {
   MIN: 0,
+  START_SEPIA_CHROME: 1,
+  START_PHOBOS_HEAT: 3,
   MAX: 100,
+  MAX_DECIMA: 1,
+  MAX_PHOBOS_HEAT: 3,
 };
 
-const FILTER_STEP = 1;
+const FilterStepVariation = {
+  NORMAL: 1,
+  DECIMAL: 0.1,
+};
 
 const uploadFileElem = document.getElementById('upload-file');
 const imgUploadOverlayElem = document.querySelector('.img-upload__overlay');
@@ -28,26 +35,26 @@ const sliderEffects = {
       max: FilterValue.MAX,
     },
     start: FilterValue.MAX,
-    step: FILTER_STEP,
+    step: FilterStepVariation.NORMAL,
     connect: 'lower',
   },
   chrome: {
     range: {
       min: FilterValue.MIN,
-      max: 1
+      max: FilterValue.MAX_DECIMA,
     },
-    start: 1,
-    step: 0.1,
+    start: FilterValue.START_SEPIA_CHROME,
+    step: FilterStepVariation.DECIMAL,
     effect: 'grayscale',
     unit: '',
   },
   sepia: {
     range: {
       min: FilterValue.MIN,
-      max: 1,
+      max: FilterValue.MAX_DECIMA,
     },
-    start: 1,
-    step: 0.1,
+    start: FilterValue.START_SEPIA_CHROME,
+    step: FilterStepVariation.DECIMAL,
     effect: 'sepia',
     unit: '',
   },
@@ -57,27 +64,27 @@ const sliderEffects = {
       max: FilterValue.MAX,
     },
     start: FilterValue.MAX,
-    step: FILTER_STEP,
+    step: FilterStepVariation.NORMAL,
     effect: 'invert',
     unit: '%',
   },
   phobos: {
     range: {
       min: FilterValue.MIN,
-      max: 3
+      max: FilterValue.MAX_PHOBOS_HEAT,
     },
-    start: 3,
-    step: 0.1,
+    start: FilterValue.START_PHOBOS_HEAT,
+    step: FilterStepVariation.DECIMAL,
     effect: 'blur',
     unit: 'px',
   },
   heat: {
     range: {
       min: 1,
-      max: 3
+      max: FilterValue.MAX_PHOBOS_HEAT
     },
-    start: 3,
-    step: 0.1,
+    start: FilterValue.START_PHOBOS_HEAT,
+    step: FilterStepVariation.DECIMAL,
     effect: 'brightness',
     unit: '',
   }
@@ -137,7 +144,7 @@ noUiSlider.create(effectLevelSliderElem, {
     max: FilterValue.MAX,
   },
   start: FilterValue.MAX,
-  step: 1,
+  step: FilterStepVariation.NORMAL,
   connect: 'lower',
   format: {
     to: (value) => {
