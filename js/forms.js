@@ -1,27 +1,28 @@
 import { showSuccessMessage, showErrorMessage } from './message.js';
 import { sendData } from './api.js';
-import { onCloseForm } from './user-photo.js';
+import { onCloseForm } from './photo-filter.js';
+
+const MAX_COUNT_HASHTAG = 5;
+const VALUE_STEP = 25;
 
 const SubmitButtonText = {
   SUBMITTING: 'Отправка...',
   IDLE: 'ОПУБЛИКОВАТЬ',
 };
 
-const MAX_COUNT_HASHTAG = 5;
-const VALUE_STEP = 25;
-const imgUploadForm = document.querySelector('.img-upload__form');
-const textHashtags = document.querySelector('.text__hashtags');
+const imgUploadFormElem = document.querySelector('.img-upload__form');
+const textHashtagsElem = document.querySelector('.text__hashtags');
+const textDescriptionElem = document.querySelector('.text__description');
+const scaleControlValueElem = document.querySelector('.scale__control--value');
+const scaleControlSmallerElem = document.querySelector('.scale__control--smaller');
+const scaleControlBiggerElem = document.querySelector('.scale__control--bigger');
+const imgUploadPreviewElem = document.querySelector('.img-upload__preview img');
+const submitButtonElem = document.querySelector('.img-upload__submit');
 
-const scaleControlValue = document.querySelector('.scale__control--value');
-const scaleControlSmaller = document.querySelector('.scale__control--smaller');
-const scaleControlBigger = document.querySelector('.scale__control--bigger');
-const imgUploadPreview = document.querySelector('.img-upload__preview img');
-const submitButton = document.querySelector('.img-upload__submit');
-
-const regular = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const regularValid = /^#[a-zа-яë0-9]{1,19}$/i;
 const regForRepeat = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
-const prestine = new Pristine(imgUploadForm, {
+const prestine = new Pristine(imgUploadFormElem, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
   successClass: 'img-upload__field-wrapper--valid',
@@ -29,61 +30,76 @@ const prestine = new Pristine(imgUploadForm, {
   errorTextTag: 'p',
 });
 
-const cheskValidHashtag = () => {
-  const hashtagArr = textHashtags.value.split(' ');
-  let isValid;
-  hashtagArr.forEach((hashtag) => {
-    isValid = (regular.test(hashtag));
-  });
-  return isValid;
-};
-
-const checkCountHashtag = () => {
-  const hashtagArr = textHashtags.value.split(' ');
-  return (hashtagArr.length <= MAX_COUNT_HASHTAG);
-};
-
-const checkRepeatingGashtag = () => {
-  const repeatedWords = textHashtags.value.match(regForRepeat);
-  return !repeatedWords;
-};
-
 const toggleSubmitButton = (isDisabled) => {
-  submitButton.disabled = isDisabled;
-  submitButton.textContent = isDisabled
+  submitButtonElem.disabled = isDisabled;
+  submitButtonElem.textContent = isDisabled
     ? SubmitButtonText.SUBMITTING
     : SubmitButtonText.IDLE;
 };
 
-scaleControlSmaller.addEventListener('click', () => {
-  const presentValue = Number(scaleControlValue.value.slice(0, -1));
+const cheskValidHashtag = () => {
+  const hashtagArr = textHashtagsElem.value.trim().split(' ');
+  let isValid;
+  if (textHashtagsElem.value === '') {
+    isValid = true;
+  } else {
+    hashtagArr.forEach((hashtag) => {
+      isValid = (regularValid.test(hashtag));
+    });
+  }
+  return isValid;
+};
+
+const checkCountHashtag = () => {
+  let hashtagArr = textHashtagsElem.value.trim().split(' ');
+  hashtagArr = hashtagArr.filter((el) => (el !== null && el !== '' || el === 0));
+  return (hashtagArr.length <= MAX_COUNT_HASHTAG);
+};
+
+const checkRepeatingGashtag = () => {
+  const repeatedWords = textHashtagsElem.value.match(regForRepeat);
+  return !repeatedWords;
+};
+
+const checkLightDescription = () => {
+  if (textDescriptionElem.value.length <= 140) {
+    return true;
+  }
+};
+
+const onMinValueToggle = () => {
+  const presentValue = Number(scaleControlValueElem.value.slice(0, -1));
   if (presentValue > VALUE_STEP) {
-    scaleControlValue.value = (`${presentValue - VALUE_STEP }%`);
-    imgUploadPreview.style.transform = `scale(${((presentValue - VALUE_STEP) / 100)})`;
+    scaleControlValueElem.value = (`${presentValue - VALUE_STEP}%`);
+    imgUploadPreviewElem.style.transform = `scale(${((presentValue - VALUE_STEP) / 100)})`;
   }
-});
+};
 
-scaleControlBigger.addEventListener('click', () => {
-  const presentValue = Number(scaleControlValue.value.slice(0, -1));
+const onMaxValueToggle = () => {
+  const presentValue = Number(scaleControlValueElem.value.slice(0, -1));
   if (presentValue < 100) {
-    scaleControlValue.value = (`${presentValue + 25 }%`);
-    imgUploadPreview.style.transform = `scale(${((presentValue + VALUE_STEP) / 100)})`;
+    scaleControlValueElem.value = (`${presentValue + 25}%`);
+    imgUploadPreviewElem.style.transform = `scale(${((presentValue + VALUE_STEP) / 100)})`;
   }
-});
+};
+
+scaleControlSmallerElem.addEventListener('click', onMinValueToggle);
+
+scaleControlBiggerElem.addEventListener('click', onMaxValueToggle);
 
 
-prestine.addValidator(textHashtags, cheskValidHashtag, 'Введён невалидный хэш-тег');
-prestine.addValidator(textHashtags, checkCountHashtag, 'Превышено количество хэш-тегов');
-prestine.addValidator(textHashtags, checkRepeatingGashtag, 'Хэш-теги повторяются');
-
+prestine.addValidator(textHashtagsElem, cheskValidHashtag, 'Введён невалидный хэш-тег');
+prestine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
+prestine.addValidator(textHashtagsElem, checkRepeatingGashtag, 'Хэш-теги повторяются');
+prestine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
 
 const setOnFormSubmit = (callback) => {
-  imgUploadForm.addEventListener('submit', async (evt) => {
+  imgUploadFormElem.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = prestine.validate();
-    if(isValid) {
+    if (isValid) {
       toggleSubmitButton(true);
-      await callback(new FormData(imgUploadForm));
+      await callback(new FormData(imgUploadFormElem));
       toggleSubmitButton();
     }
   });
