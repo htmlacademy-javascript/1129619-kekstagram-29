@@ -19,16 +19,7 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
-};
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
-
-const getRandomArrayEl = (element) => element[getRandomInteger(0, element.length - 1)];
 
 const sortRandomly = () => Math.random() - 0.5;
 
@@ -40,5 +31,5 @@ const debounce = (callback, timeoutDelay = RERENDER_DELAY) => {
   };
 };
 
-export { getRandomInteger, getRandomArrayEl, isEscapeKey, showAlert, debounce, sortRandomly };
+export { isEscapeKey, showAlert, debounce, sortRandomly };
 
