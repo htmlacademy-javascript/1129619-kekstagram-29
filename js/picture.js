@@ -3,7 +3,7 @@ import { showAlert, sortRandomly, debounce } from './util.js';
 
 const MAX_RANDOM_AMOUNT = 10;
 const listPhotoElem = document.querySelector('.pictures');
-const simularPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const similarPictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const imgFiltersElem = document.querySelector('.img-filters');
 const photoListFragment = document.createDocumentFragment();
 const imgFiltersFormElem = document.querySelector('.img-filters__form');
@@ -18,18 +18,20 @@ let pictures = [];
 
 const renderPosts = (data) => {
   if (data) {
-    const allPictures = document.querySelectorAll('.picture');
-    allPictures.forEach((el) => {
+    const allPicturesElems = document.querySelectorAll('.picture');
+    allPicturesElems.forEach((el) => {
       el.remove();
     });
     data.forEach(({ id, url, description, likes, comments }) => {
-      const photoElement = simularPictureTemplate.cloneNode(true);
-      photoElement.querySelector('.picture__img').id = id;
-      photoElement.querySelector('.picture__img').src = url;
-      photoElement.querySelector('.picture__img').alt = description;
-      photoElement.querySelector('.picture__info').querySelector('.picture__likes').textContent = likes;
-      photoElement.querySelector('.picture__info').querySelector('.picture__comments').textContent = comments.length;
-      photoListFragment.append(photoElement);
+      const photoElem = similarPictureTemplate.cloneNode(true);
+      const photoImgElem = photoElem.querySelector('.picture__img');
+      const photoInfoElem = photoElem.querySelector('.picture__info');
+      photoImgElem.id = id;
+      photoImgElem.src = url;
+      photoImgElem.alt = description;
+      photoInfoElem.querySelector('.picture__likes').textContent = likes;
+      photoInfoElem.querySelector('.picture__comments').textContent = comments.length;
+      photoListFragment.append(photoElem);
     });
     listPhotoElem.append(photoListFragment);
   }

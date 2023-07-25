@@ -1,5 +1,12 @@
-import { prestine } from './forms.js';
+import { pristine } from './forms.js';
 import { isEscapeKey } from './util.js';
+
+const FilterValue = {
+  MIN: 0,
+  MAX: 100,
+};
+
+const FILTER_STEP = 1;
 
 const uploadFileElem = document.getElementById('upload-file');
 const imgUploadOverlayElem = document.querySelector('.img-upload__overlay');
@@ -11,24 +18,22 @@ const imgUploadCancelElem = document.querySelector('#upload-cancel');
 const effectsListElem = document.querySelector('.effects__list');
 const effectLevelSliderElem = document.querySelector('.effect-level__slider');
 const effectLevelValueElem = document.querySelector('.effect-level__value');
-const imgUploadPreviewElem = document.querySelector('.img-upload__preview');
 const uploadPreviewPhotoElem = document.querySelector('.img-upload__preview img');
 const imgUploadFormElem = document.querySelector('.img-upload__form');
-
 
 const sliderEffects = {
   none: {
     range: {
-      min: 0,
-      max: 100,
+      min: FilterValue.MIN,
+      max: FilterValue.MAX,
     },
-    start: 100,
-    step: 1,
+    start: FilterValue.MAX,
+    step: FILTER_STEP,
     connect: 'lower',
   },
   chrome: {
     range: {
-      min: 0,
+      min: FilterValue.MIN,
       max: 1
     },
     start: 1,
@@ -38,8 +43,8 @@ const sliderEffects = {
   },
   sepia: {
     range: {
-      min: 0,
-      max: 1
+      min: FilterValue.MIN,
+      max: 1,
     },
     start: 1,
     step: 0.1,
@@ -48,17 +53,17 @@ const sliderEffects = {
   },
   marvin: {
     range: {
-      min: 0,
-      max: 100
+      min: FilterValue.MIN,
+      max: FilterValue.MAX,
     },
-    start: 100,
-    step: 1,
+    start: FilterValue.MAX,
+    step: FILTER_STEP,
     effect: 'invert',
     unit: '%',
   },
   phobos: {
     range: {
-      min: 0,
+      min: FilterValue.MIN,
       max: 3
     },
     start: 3,
@@ -84,9 +89,9 @@ const onCloseForm = () => {
   imgUploadOverlayElem.classList.add('hidden');
   bodyElem.classList.remove('modal-open');
   imgUploadFormElem.reset();
-  prestine.reset();
-  imgUploadPreviewElem.style.filter = '';
-  uploadPreviewPhotoElem.style.transform = 'scale(1)';
+  pristine.reset();
+  uploadPreviewPhotoElem.style = '';
+  uploadPreviewPhotoElem.style.filter = '';
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
@@ -128,22 +133,20 @@ uploadFileElem.addEventListener('change', () => {
 
 noUiSlider.create(effectLevelSliderElem, {
   range: {
-    min: 0,
-    max: 100,
+    min: FilterValue.MIN,
+    max: FilterValue.MAX,
   },
-  start: 100,
+  start: FilterValue.MAX,
   step: 1,
   connect: 'lower',
   format: {
-    to: function (value) {
+    to: (value) => {
       if (Number.isInteger(value)) {
         return value.toFixed(2);
       }
       return value.toFixed(2);
     },
-    from: function (value) {
-      return parseFloat(value);
-    },
+    from: (value) => parseFloat(value),
   },
 });
 

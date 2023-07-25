@@ -4,6 +4,7 @@ import { onCloseForm } from './photo-filter.js';
 
 const MAX_COUNT_HASHTAG = 5;
 const VALUE_STEP = 25;
+const MAXIMUM_COMMENT_LENGTH = 140;
 
 const SubmitButtonText = {
   SUBMITTING: 'Отправка...',
@@ -22,7 +23,7 @@ const submitButtonElem = document.querySelector('.img-upload__submit');
 const regValid = /^#[a-zа-яë0-9]{1,19}$/i;
 const regForRepeat = /\b(\w+)\b(?=.*\b\1\b)/gi;
 
-const prestine = new Pristine(imgUploadFormElem, {
+const pristine = new Pristine(imgUploadFormElem, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload__field-wrapper--invalid',
   successClass: 'img-upload__field-wrapper--valid',
@@ -56,13 +57,13 @@ const checkCountHashtag = () => {
   return (hashtagArr.length <= MAX_COUNT_HASHTAG);
 };
 
-const checkRepeatingGashtag = () => {
+const checkRepeatingHashtag = () => {
   const repeatedWords = textHashtagsElem.value.match(regForRepeat);
   return !repeatedWords;
 };
 
 const checkLightDescription = () => {
-  if (textDescriptionElem.value.length <= 140) {
+  if (textDescriptionElem.value.length <= MAXIMUM_COMMENT_LENGTH) {
     return true;
   }
 };
@@ -86,7 +87,7 @@ const onMaxValueToggle = () => {
 const setOnFormSubmit = (callback) => {
   imgUploadFormElem.addEventListener('submit', async (evt) => {
     evt.preventDefault();
-    const isValid = prestine.validate();
+    const isValid = pristine.validate();
     if (isValid) {
       toggleSubmitButton(true);
       await callback(new FormData(imgUploadFormElem));
@@ -105,13 +106,13 @@ setOnFormSubmit(async (data) => {
   }
 });
 
-prestine.addValidator(textHashtagsElem, checkValidHashtag, 'Введён невалидный хэш-тег');
-prestine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
-prestine.addValidator(textHashtagsElem, checkRepeatingGashtag, 'Хэш-теги повторяются');
-prestine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
+pristine.addValidator(textHashtagsElem, checkValidHashtag, 'Введён невалидный хэш-тег');
+pristine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
+pristine.addValidator(textHashtagsElem, checkRepeatingHashtag, 'Хэш-теги повторяются');
+pristine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
 
 
 scaleControlSmallerElem.addEventListener('click', onMinValueToggle);
 scaleControlBiggerElem.addEventListener('click', onMaxValueToggle);
 
-export { prestine };
+export { pristine };

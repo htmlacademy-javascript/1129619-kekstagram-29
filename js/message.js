@@ -1,17 +1,17 @@
 import { onPopupEscPress } from './photo-filter.js';
 
-const successMessage = document.querySelector('#success')
+const successMessageTemplate = document.querySelector('#success')
   .content.querySelector('.success');
-const errorMessage = document.querySelector('#error')
+const errorMessageTemplate = document.querySelector('#error')
   .content.querySelector('.error');
-const body = document.querySelector('body');
+const bodyElem = document.querySelector('body');
 
 const hideMessage = () => {
   const messageElem = document.querySelector('.success') || document.querySelector('.error');
   messageElem.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   document.addEventListener('keydown', onPopupEscPress);
-  body.removeEventListener('click', onBodyClick);
+  bodyElem.removeEventListener('click', onBodyClick);
 };
 
 function onBodyClick(evt) {
@@ -31,20 +31,22 @@ function onDocumentKeydown(evt) {
   }
 }
 
+const onClickCloseButton = () => hideMessage();
+
 const showMessage = (messageElem, closeButtonClass) => {
-  body.append(messageElem);
+  bodyElem.append(messageElem);
   document.removeEventListener('keydown', onPopupEscPress);
   document.addEventListener('keydown', onDocumentKeydown);
-  body.addEventListener('click', onBodyClick);
-  messageElem.querySelector(closeButtonClass).addEventListener('click', hideMessage);
+  bodyElem.addEventListener('click', onBodyClick);
+  messageElem.querySelector(closeButtonClass).addEventListener('click', onClickCloseButton);
 };
 
 const showSuccessMessage = () => {
-  showMessage(successMessage, '.success__button');
+  showMessage(successMessageTemplate, '.success__button');
 };
 
 const showErrorMessage = () => {
-  showMessage(errorMessage, '.error__button');
+  showMessage(errorMessageTemplate, '.error__button');
 };
 
 export { showSuccessMessage, showErrorMessage };

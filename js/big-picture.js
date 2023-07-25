@@ -2,12 +2,14 @@ import { isEscapeKey } from './util.js';
 import { listPhotoElem, photoWithData } from './picture.js';
 
 const QTY_UPLOADED_COMMENTS = 5;
+const COMMENT_AVATAR_WIDTH = '35';
+const COMMENT_AVATAR_HEIGHT = '35';
 const bigPictureElem = document.querySelector('.big-picture');
 const cancelBigPictureElem = bigPictureElem.querySelector('.big-picture__cancel');
 const bigPictureImgElem = bigPictureElem.querySelector('.big-picture__img img');
 const bigPictureLikesElem = bigPictureElem.querySelector('.likes-count');
 const bigPictureCommentsElem = bigPictureElem.querySelector('.comments-count');
-const bigPictureDiscriptionElem = bigPictureElem.querySelector('.social__caption');
+const bigPictureDescriptionElem = bigPictureElem.querySelector('.social__caption');
 const socialCommentCountElem = bigPictureElem.querySelector('.social__comment-count');
 const commentsLoaderElem = bigPictureElem.querySelector('.comments-loader');
 const commentsForPhotoElem = bigPictureElem.querySelector('.social__comments');
@@ -25,8 +27,8 @@ const getCommentsPost = (commentsArr) => {
     commentContent.classList.add('social__picture');
     commentContent.src = comment.avatar;
     commentContent.alt = comment.name;
-    commentContent.width = '35';
-    commentContent.height = '35';
+    commentContent.width = COMMENT_AVATAR_WIDTH;
+    commentContent.height = COMMENT_AVATAR_HEIGHT;
 
     socialText.classList.add('social__text');
     socialText.textContent = comment.message;
@@ -41,8 +43,8 @@ const getCommentsPost = (commentsArr) => {
 };
 
 const getQtyShowedComments = (commentForPhoto) => {
-  const hiddenComments = commentsForPhotoElem.querySelectorAll('.hidden');
-  return commentForPhoto.length - hiddenComments.length;
+  const hiddenCommentsElems = commentsForPhotoElem.querySelectorAll('.hidden');
+  return commentForPhoto.length - hiddenCommentsElems.length;
 };
 
 const onDocumentKeydown = (evt) => {
@@ -61,8 +63,8 @@ const hideCommentsLoader = (commentsArr) => {
   }
 };
 
-const counterComments = () => {
-  let firstShow = 5;
+const makeCounterComments = () => {
+  let firstShow = QTY_UPLOADED_COMMENTS;
 
   return () => {
     firstShow += QTY_UPLOADED_COMMENTS;
@@ -74,14 +76,14 @@ const openBigPicture = (evt) => {
   if (evt.target.matches('.picture__img')) {
 
     evt.preventDefault();
-    const likesForPicture = evt.target.parentNode.querySelector('.picture__likes');
-    const commentsForPicture = evt.target.parentNode.querySelector('.picture__comments');
+    const likesForPictureElem = evt.target.parentNode.querySelector('.picture__likes');
+    const commentsForPictureElem = evt.target.parentNode.querySelector('.picture__comments');
     const topicalId = photoWithData.find((el) => el.id === Number(evt.target.id));
 
 
-    const getNextNumComments = counterComments();
+    const getNextNumComments = makeCounterComments();
 
-    const onlLoadComments = () => {
+    const onLoadComments = () => {
       commentsForPhotoElem.innerHTML = '';
       getCommentsPost(topicalId.comments.slice(0, getNextNumComments()));
       socialCommentCountElem.innerHTML = `${commentsForPhotoElem.children.length} из ${bigPictureCommentsElem.textContent} комментариев`;
@@ -91,26 +93,26 @@ const openBigPicture = (evt) => {
     };
 
     commentsForPhotoElem.innerHTML = '';
-    getCommentsPost(topicalId.comments.slice(0, 5));
+    getCommentsPost(topicalId.comments.slice(0, QTY_UPLOADED_COMMENTS));
 
     bigPictureElem.classList.remove('hidden');
     bigPictureImgElem.src = `photos/${(Number(evt.target.id) + 1)}.jpg`;
 
     tagBodyElem.classList.add('modal-open');
 
-    bigPictureLikesElem.textContent = likesForPicture.textContent;
-    bigPictureCommentsElem.textContent = commentsForPicture.textContent;
-    bigPictureDiscriptionElem.textContent = evt.target.alt;
+    bigPictureLikesElem.textContent = likesForPictureElem.textContent;
+    bigPictureCommentsElem.textContent = commentsForPictureElem.textContent;
+    bigPictureDescriptionElem.textContent = evt.target.alt;
 
-    const commentForPhoto = document.querySelectorAll('.social__comment');
+    const commentForPhotoElems = document.querySelectorAll('.social__comment');
 
-    const socialCommentsLoader = document.querySelector('.comments-loader');
+    const socialCommentsLoaderElem = document.querySelector('.comments-loader');
 
-    socialCommentCountElem.innerHTML = `${getQtyShowedComments(commentForPhoto)} из <span class="comments-count">${bigPictureCommentsElem.textContent}</span> комментариев`;
+    socialCommentCountElem.innerHTML = `${getQtyShowedComments(commentForPhotoElems)} из <span class="comments-count">${bigPictureCommentsElem.textContent}</span> комментариев`;
 
     hideCommentsLoader(commentsForPhotoElem);
 
-    socialCommentsLoader.addEventListener('click', onlLoadComments);
+    socialCommentsLoaderElem.addEventListener('click', onLoadComments);
 
     document.addEventListener('keydown', onDocumentKeydown);
   }
