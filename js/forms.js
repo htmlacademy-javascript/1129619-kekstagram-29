@@ -83,16 +83,6 @@ const onMaxValueToggle = () => {
   }
 };
 
-scaleControlSmallerElem.addEventListener('click', onMinValueToggle);
-
-scaleControlBiggerElem.addEventListener('click', onMaxValueToggle);
-
-
-prestine.addValidator(textHashtagsElem, cheskValidHashtag, 'Введён невалидный хэш-тег');
-prestine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
-prestine.addValidator(textHashtagsElem, checkRepeatingGashtag, 'Хэш-теги повторяются');
-prestine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
-
 const setOnFormSubmit = (callback) => {
   imgUploadFormElem.addEventListener('submit', async (evt) => {
     evt.preventDefault();
@@ -114,5 +104,14 @@ setOnFormSubmit(async (data) => {
     showErrorMessage();
   }
 });
+
+prestine.addValidator(textHashtagsElem, cheskValidHashtag, 'Введён невалидный хэш-тег');
+prestine.addValidator(textHashtagsElem, checkCountHashtag, 'Превышено количество хэш-тегов');
+prestine.addValidator(textHashtagsElem, checkRepeatingGashtag, 'Хэш-теги повторяются');
+prestine.addValidator(textDescriptionElem, checkLightDescription, 'Максимальная длина комментария 140 символов');
+
+
+scaleControlSmallerElem.addEventListener('click', onMinValueToggle);
+scaleControlBiggerElem.addEventListener('click', onMaxValueToggle);
 
 export { prestine };
