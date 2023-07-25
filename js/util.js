@@ -1,7 +1,6 @@
 const ALERT_SHOW_TIME = 5000;
 const RERENDER_DELAY = 500;
 
-
 const showAlert = (message) => {
   const alert = document.createElement('div');
   alert.style.position = 'absolute';
@@ -31,6 +30,8 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const getRandomArrayEl = (element) => element[getRandomInteger(0, element.length - 1)];
 
+const sortRandomly = () => Math.random() - 0.5;
+
 const debounce = (callback, timeoutDelay = RERENDER_DELAY) => {
   let timeoutId;
   return (...rest) => {
@@ -39,6 +40,5 @@ const debounce = (callback, timeoutDelay = RERENDER_DELAY) => {
   };
 };
 
-
-export { getRandomInteger, getRandomArrayEl, isEscapeKey, showAlert, debounce };
+export { getRandomInteger, getRandomArrayEl, isEscapeKey, showAlert, debounce, sortRandomly };
 

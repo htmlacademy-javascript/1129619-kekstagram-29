@@ -1,3 +1,5 @@
+import { onPopupEscPress } from './photo-filter.js';
+
 const successMessage = document.querySelector('#success')
   .content.querySelector('.success');
 const errorMessage = document.querySelector('#error')
@@ -8,6 +10,7 @@ const hideMessage = () => {
   const messageElem = document.querySelector('.success') || document.querySelector('.error');
   messageElem.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onPopupEscPress);
   body.removeEventListener('click', onBodyClick);
 };
 
@@ -30,6 +33,7 @@ function onDocumentKeydown(evt) {
 
 const showMessage = (messageElem, closeButtonClass) => {
   body.append(messageElem);
+  document.removeEventListener('keydown', onPopupEscPress);
   document.addEventListener('keydown', onDocumentKeydown);
   body.addEventListener('click', onBodyClick);
   messageElem.querySelector(closeButtonClass).addEventListener('click', hideMessage);
@@ -42,7 +46,5 @@ const showSuccessMessage = () => {
 const showErrorMessage = () => {
   showMessage(errorMessage, '.error__button');
 };
-
-// showErrorMessage();
 
 export { showSuccessMessage, showErrorMessage };
