@@ -16,25 +16,25 @@ const tagBodyElem = document.querySelector('body');
 const getCommentsPost = (commentsArr) => {
   const commentsFragment = document.createDocumentFragment();
   commentsArr.forEach((comment) => {
-    const commentConteiner = document.createElement('li');
-    const commentСontent = document.createElement('img');
+    const commentContainer = document.createElement('li');
+    const commentContent = document.createElement('img');
     const socialText = document.createElement('p');
 
-    commentConteiner.classList.add('social__comment');
+    commentContainer.classList.add('social__comment');
 
-    commentСontent.classList.add('social__picture');
-    commentСontent.src = comment.avatar;
-    commentСontent.alt = comment.name;
-    commentСontent.width = '35';
-    commentСontent.height = '35';
+    commentContent.classList.add('social__picture');
+    commentContent.src = comment.avatar;
+    commentContent.alt = comment.name;
+    commentContent.width = '35';
+    commentContent.height = '35';
 
     socialText.classList.add('social__text');
     socialText.textContent = comment.message;
 
-    commentConteiner.append(commentСontent);
-    commentConteiner.append(socialText);
+    commentContainer.append(commentContent);
+    commentContainer.append(socialText);
 
-    commentsFragment.append(commentConteiner);
+    commentsFragment.append(commentContainer);
 
   });
   commentsForPhotoElem.append(commentsFragment);
